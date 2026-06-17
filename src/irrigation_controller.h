@@ -1,4 +1,4 @@
-﻿#ifndef IRRIGATION_CONTROLLER_H
+#ifndef IRRIGATION_CONTROLLER_H
 #define IRRIGATION_CONTROLLER_H
 
 #include <stdint.h>
@@ -16,8 +16,8 @@ typedef struct {
     uint32_t pump_runtime_seconds;
 } irrigation_state_t;
 
-#define HUMIDITY_LOW_THRESHOLD   30
-#define HUMIDITY_HIGH_THRESHOLD  70
+#define HUMIDITY_LOW_THRESHOLD   70
+#define HUMIDITY_HIGH_THRESHOLD  30
 #define MAX_PUMP_RUNTIME_SECONDS 600
 
 void irrigation_init(irrigation_state_t* state);
@@ -27,3 +27,4 @@ void irrigation_tick(irrigation_state_t* state, uint32_t elapsed_seconds);
 bool irrigation_is_pump_active(const irrigation_state_t* state);
 
 #endif
+
