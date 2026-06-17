@@ -1,0 +1,6 @@
+*.obj
+*.exe
+*.elf
+*.log
+FLASH
+RAM
