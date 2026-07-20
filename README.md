@@ -16,33 +16,52 @@ pump according to simple safety rules:
 
 ## Architecture
 
-\\\
-src/irrigation_controller.c   <- business logic (pure C, hardware-independent)
-src/main.c                    <- application entry point
-src/startup.c                 <- Cortex-M startup code, interrupt vector table
-src/linker.ld                 <- memory layout for QEMU lm3s6965evb target
-tests/test_irrigation_controller.c  <- Unity unit tests
-\\\
+```text
+src/
+├── irrigation_controller.c    # Business logic (pure C, hardware-independent)
+├── main.c                     # Application entry point
+├── startup.c                  # Cortex-M startup code, interrupt vector table
+└── linker.ld                  # Memory layout for QEMU lm3s6965evb target
 
-## Build and test (native, fast feedback loop)
+tests/
+└── test_irrigation_controller.c
+    # Unity unit tests
+```
 
-\\\ash
-gcc -I src -I tests/unity tests/test_irrigation_controller.c src/irrigation_controller.c tests/unity/unity.c -o test_native
+## Build and Test (Native, Fast Feedback Loop)
+
+```bash
+gcc -I src -I tests/unity \
+    tests/test_irrigation_controller.c \
+    src/irrigation_controller.c \
+    tests/unity/unity.c \
+    -o test_native
+
 ./test_native
-\\\
+```
 
-## Cross-compile for ARM Cortex-M
+## Cross-Compile for ARM Cortex-M
 
-\\\ash
-arm-none-eabi-gcc -mcpu=cortex-m4 -mthumb -nostdlib -T src/linker.ld src/startup.c src/main.c src/irrigation_controller.c -o firmware.elf
-\\\
+```bash
+arm-none-eabi-gcc \
+    -mcpu=cortex-m4 \
+    -mthumb \
+    -nostdlib \
+    -T src/linker.ld \
+    src/startup.c \
+    src/main.c \
+    src/irrigation_controller.c \
+    -o firmware.elf
+```
 
-## Run in QEMU (no physical hardware required)
+## Run in QEMU (No Physical Hardware Required)
 
-\\\ash
-qemu-system-arm -M lm3s6965evb -nographic -kernel firmware.elf
-\\\
-
+```bash
+qemu-system-arm \
+    -M lm3s6965evb \
+    -nographic \
+    -kernel firmware.elf
+```
 ## CI/CD pipeline
 
 Every push triggers two GitHub Actions jobs:
