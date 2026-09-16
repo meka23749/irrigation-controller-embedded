@@ -1,4 +1,4 @@
-# Irrigation Controller — Embedded C / ARM Cross-Compilation / CI-CD
+# Irrigation Controller: Embedded C, ARM Cross-Compilation, CI-CD
 
 Bare-metal C firmware for automated irrigation control, built with a full
 embedded DevOps pipeline: ARM cross-compilation, unit testing, QEMU
@@ -54,7 +54,7 @@ arm-none-eabi-gcc \
     -o firmware.elf
 ```
 
-## Run in QEMU (No Physical Hardware Required)
+## Run in QEMU 
 
 ```bash
 qemu-system-arm \
@@ -70,7 +70,7 @@ Every push triggers two GitHub Actions jobs:
 2. **ARM cross-compile + QEMU validation** - builds the real target firmware
    and verifies it boots without crashing
 
-## Engineering notes
+## Notes
 
 Two real issues were found and fixed during development - documented in
 [CHANGELOG.md](CHANGELOG.md) and visible in the commit history:
@@ -86,7 +86,7 @@ Two real issues were found and fixed during development - documented in
 ## Tech stack
 
 - C (bare-metal, no OS)
-- ARM GNU Toolchain (\rm-none-eabi-gcc\)
+- ARM GNU Toolchain (\arm-none-eabi-gcc\)
 - Unity test framework
 - QEMU (ARM Cortex-M emulation)
 - GitHub Actions CI/CD
