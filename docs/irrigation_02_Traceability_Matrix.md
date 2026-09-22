@@ -1,12 +1,8 @@
 # Requirement ↔ Test Traceability Matrix
 
-**Project:** Irrigation Controller — Bare-Metal ARM Firmware
-**Author:** Steve Fredy Meka
-
 This matrix links each requirement to the automated Unity test that verifies it.
 It applies, to a bare-metal C firmware, the same requirement-to-test traceability
-principle used by DOORS (requirements) and XRAY (test management) in regulated
-industries — ensuring every requirement is covered by at least one test.
+principle used by DOORS (requirements) and XRAY (test management).
 
 ---
 
