@@ -35,7 +35,3 @@ swapped `HUMIDITY_LOW_THRESHOLD` and `HUMIDITY_HIGH_THRESHOLD`. The existing tes
 did not catch it (they only checked extreme values). This new test explicitly
 verifies the design invariant `LOW < HIGH` and reliably detects the fault —
 a concrete example of improving test coverage in response to a discovered bug.
-
-> This is the same traceability principle used by DOORS + XRAY in regulated
-> industries (automotive ISO 26262, railway EN 50128, aerospace DO-178C), applied
-> here with lightweight open tools (Unity + Markdown).
