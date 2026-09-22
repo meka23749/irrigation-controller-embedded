@@ -1,10 +1,5 @@
 # Requirements Specification
 
-**Project:** Irrigation Controller — Bare-Metal ARM Firmware
-**Author:** Steve Fredy Meka
-**Version:** 1.0
-**Date:** [enter date]
-
 ---
 
 ## 1. Purpose
