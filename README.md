@@ -89,8 +89,8 @@ The firmware is developed with an explicit engineering approach: each behavior i
 specified as a numbered requirement, and every requirement is verified by at least
 one automated test.
 
-- [Requirements Specification](docs/01_Requirements.md) — functional & safety requirements
-- [Traceability Matrix](docs/02_Traceability_Matrix.md) — requirement ↔ test mapping (7/7 covered)
+- [Requirements Specification](docs/01_Requirements.md) - functional & safety requirements
+- [Traceability Matrix](docs/02_Traceability_Matrix.md) - requirement ↔ test mapping (7/7 covered)
 
 This mirrors the requirement-management and traceability practices (DOORS / XRAY)
 used in regulated industries (ISO 26262, EN 50128, DO-178C).
