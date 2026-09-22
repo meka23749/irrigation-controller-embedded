@@ -15,24 +15,39 @@ void irrigation_set_sensor_status(irrigation_state_t* state, sensor_status_t sta
     state->sensor_status = status;
 }
 
-void irrigation_tick(irrigation_state_t* state, uint32_t elapsed_seconds) {
-
+/* Safety Monitor: enforces fail-safe (sensor error) and anti-flooding (max runtime).
+ * Returns true if a safety condition forced the pump off. */
+static bool safety_check(irrigation_state_t* state) {
+    /* REQ-05: sensor error -> force pump off (fail-safe) */
     if (state->sensor_status == SENSOR_ERROR) {
         state->pump_active = false;
         state->pump_runtime_seconds = 0;
-        return;
+        return true;
     }
 
+    /* REQ-06: pump ran too long -> force off (anti-flooding) */
+    if (state->pump_runtime_seconds >= MAX_PUMP_RUNTIME_SECONDS) {
+        state->pump_active = false;
+        state->pump_runtime_seconds = 0;
+        return true;
+    }
+
+    return false;
+}
+
+void irrigation_tick(irrigation_state_t* state, uint32_t elapsed_seconds) {
+
+    /* Update pump runtime before safety checks */
     if (state->pump_active) {
         state->pump_runtime_seconds += elapsed_seconds;
     }
 
-    if (state->pump_runtime_seconds >= MAX_PUMP_RUNTIME_SECONDS) {
-        state->pump_active = false;
-        state->pump_runtime_seconds = 0;
+    /* Safety Monitor has priority: if it acts, stop here */
+    if (safety_check(state)) {
         return;
     }
 
+    /* Control Logic: normal humidity-based decisions with hysteresis */
     if (!state->pump_active && state->humidity_percent < HUMIDITY_LOW_THRESHOLD) {
         state->pump_active = true;
         state->pump_runtime_seconds = 0;
