@@ -86,14 +86,36 @@ Two real issues were found and fixed during development - documented in
 ## Requirements & Traceability
 
 The firmware is developed with an explicit engineering approach: each behavior is
-specified as a numbered requirement, and every requirement is verified by at least
+specified as a numbered requirement, and every requirement is linked to at least
 one automated test.
 
-- [Requirements Specification](docs/01_Requirements.md) - functional & safety requirements
-- [Traceability Matrix](docs/02_Traceability_Matrix.md) - requirement ↔ test mapping (7/7 covered)
+- [Requirements Specification](docs/irrigation_01_Requirements.md) - functional & safety requirements
+- [Traceability Matrix](docs/irrigation_02_Traceability_Matrix.md) - requirement to test mapping
+- [Architecture](docs/irrigation_03_Architecture.md) - Capella logical architecture
 
-This mirrors the requirement-management and traceability practices (DOORS / XRAY)
+This follows the requirement-management and traceability practices (DOORS / XRAY)
 used in regulated industries (ISO 26262, EN 50128, DO-178C).
+
+## Known Limitations
+
+Found in a review of the project, with experiments; documented, not fixed yet.
+
+- **Anti-flooding (REQ-06) is not effective.** After the max-runtime stop, the runtime
+  counter is reset and the control logic restarts the pump on the next tick if the soil
+  is still dry. Simulated hour with humidity stuck at 10 %: pump on for 3,595 s of 3,600 s.
+  REQ-06 does not specify what must happen after the stop: a lockout requirement is missing.
+- **The QEMU step in CI cannot fail.** `timeout 3 qemu-system-arm ... || true` succeeds for
+  any firmware: a firmware that crashes at its first instruction also passes. The step only
+  shows that the firmware builds and QEMU starts.
+- **The startup code does not initialise RAM.** `.data` is not copied from FLASH and `.bss`
+  is not zeroed. The current firmware is unaffected (its only global variable is set by
+  `irrigation_init`), but any initialised global variable would start with a wrong value
+  (verified in QEMU).
+- **REQ-04 (hysteresis) is only half tested.** The tests check that the pump stays off in
+  the dead band, not that it stays on. A mutation that removes the hysteresis passes all 7 tests.
+- No boundary-value tests (29/30/70/71 %, 599/600 s) and no plausibility check
+  (a humidity of 250 % is accepted).
+- CI compiles for `cortex-m4`, while QEMU `lm3s6965evb` emulates a Cortex-M3.
 
 ## Tech stack
 

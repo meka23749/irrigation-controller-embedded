@@ -13,18 +13,20 @@ principle used by DOORS (requirements) and XRAY (test management).
 | REQ-01 | Pump inactive at initialization | `test_initial_state_pump_inactive` | ✅ Verified |
 | REQ-02 | Low humidity activates pump | `test_low_humidity_activates_pump` | ✅ Verified |
 | REQ-03 | High humidity deactivates pump | `test_high_humidity_deactivates_pump` | ✅ Verified |
-| REQ-04 | Hysteresis (pump off between thresholds) | `test_pump_stays_off_between_thresholds` | ✅ Verified |
+| REQ-04 | Hysteresis (pump keeps its state between thresholds) | `test_pump_stays_off_between_thresholds` | ⚠️ Partially verified: "stays off" is tested, "stays on" is not (a mutation removing the hysteresis passes all tests) |
 | REQ-05 | Sensor error forces pump off (fail-safe) | `test_sensor_error_forces_pump_off` | ✅ Verified |
-| REQ-06 | Pump stops after max runtime (anti-flooding) | `test_pump_stops_after_max_runtime` | ✅ Verified |
+| REQ-06 | Pump stops after max runtime (anti-flooding) | `test_pump_stops_after_max_runtime` | ⚠️ Verified as written, but the requirement is incomplete: the pump restarts on the next tick (3,595 s on in a simulated hour of dry soil) |
 | REQ-07 | Low threshold < high threshold (invariant) | `test_thresholds_are_correctly_ordered` | ✅ Verified |
 
 ---
 
 ## Coverage summary
 
-- **7 requirements, 7 verifying tests — full coverage.**
-- All tests pass, natively and cross-compiled for ARM Cortex-M under QEMU
-  (see CI status in the README).
+- **7 requirements, each linked to at least one test.** All tests pass, natively.
+- **5 requirements fully verified**, 2 with known gaps (REQ-04, REQ-06), see
+  [Known Limitations](../README.md#known-limitations).
+- The QEMU step in CI only shows that the firmware builds and boots; it does not run the
+  tests on the target.
 
 ---
 
