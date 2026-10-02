@@ -10,9 +10,8 @@ normal control logic. Isolating safety from nominal behavior is a common practic
 in embedded/critical systems: it makes the safety functions explicit and gives them
 priority over normal operation.
 
-The architecture is intentionally cleaner than the current implementation (where the
-logic lives in a single `irrigation_tick` function): the model shows the intended
-structure and separation of concerns.
+The implementation follows this structure: the Safety Monitor is a separate function
+(`safety_check`) that runs before the control logic in every tick and has priority over it.
 
 ---
 

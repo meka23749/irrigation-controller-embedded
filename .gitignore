@@ -4,3 +4,9 @@
 *.log
 FLASH
 RAM
+
+# Native test binary
+test_native
+
+# Personal editor settings
+.vscode/
